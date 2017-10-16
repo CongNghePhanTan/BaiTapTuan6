@@ -1,25 +1,31 @@
-
+import java.net.MalformedURLException;
 import java.rmi.*;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MaxMinServerComponent {
-
-    private static final String host = "localhost";
-
-    public static void main(String[] args) throws Exception {
-        //** Step 1
-        //** Declare a reference for the object that will be implemented         
-        MaxMinImplementation temp = new MaxMinImplementation();
-        
-        //** Step 2
-        //** Declare a string variable for holding the URL of the object's name        
-        String rmiObjectName = "rmi://" + host + "/MaxMin";
-        
-        //Step 3
-        //Binding the object reference to the object name.
-        Naming.rebind(rmiObjectName, temp);
-        
-        //Step 4
-        //Tell to the user that the process is completed.        
-        System.out.println("Binding complete...\n");
-    }
+    
+   public static void main(String[] args){
+       try {
+           new MaxMinServerComponent().run();
+       } catch (MalformedURLException ex) {
+           Logger.getLogger(MaxMinServerComponent.class.getName()).log(Level.SEVERE, null, ex);
+       }
+   } 
+   private void run() throws MalformedURLException{
+    
+       try{
+           MaxMinImplementation MaxMinImplementation =new MaxMinImplementation();
+           Registry registry = LocateRegistry.createRegistry(2012);
+           Naming.rebind("rmi://localhost:2012/MaxMinImplementation",MaxMinImplementation );
+       System.out.println("Server is running...");
+       }catch(RemoteException ex){
+           Logger.getLogger(MaxMinServerComponent.class.getName()).log(Level.SEVERE,null, ex);
+       }catch(MalformedURLException ex){
+           Logger.getLogger(MaxMinServerComponent.class.getName()).log(Level.SEVERE,null, ex);
+   }
 }
+}
+
