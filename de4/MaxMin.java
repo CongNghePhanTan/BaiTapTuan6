@@ -1,6 +1,7 @@
 import java.rmi.*;
+import java.util.ArrayList;
 
-public interface MaxMin extends Remote
+public interface IMaxMin extends Remote
 {
-    public String getGreetingMessage(String args []) throws RemoteException;
+     public int[] SapXep(int a[]) throws RemoteException;
 }
